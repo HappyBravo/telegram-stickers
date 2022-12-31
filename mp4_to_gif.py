@@ -1,14 +1,14 @@
-
 import time
 from os import listdir, path, getcwd, system, rename
 from webbrowser import Chrome
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 options = webdriver.ChromeOptions()
 
 # chromedriver needs to be updated according to your Chrome Browser version
-chrome_sel_path = 'D:\C\Program Files\Selenium\Chrome\Chrome ver 103\chromedriver.exe' # set your chromedriver path
+chrome_sel_path = "path\\to\\chromedriver.exe" # set your chromedriver path
 
 def rename_webp_to_mp4():
     file_extension = "webp"
@@ -31,14 +31,19 @@ def openBrowser(link):
 
 def uploadFile(mp4file):
     # driver.implicitly_wait(10)
-    upload_file = driver.find_element_by_class_name("up-input")
+    # upload_file = driver.find_element_by_class_name("up-input")
+    upload_file = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div[1]/form/fieldset/p[1]/input")
+
     
     print(">>> Uploading place caught")
     
     upload_file.send_keys(mp4file) # uploading file
 
     # up_button = driver.find_element_by_class_name("button primary")
-    up_button = driver.find_element_by_xpath("/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input")
+
+    # up_button = driver.find_element_by_xpath("/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input")     # <<< THIS WAS OLDER VERSION OF SELINIUM
+    up_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input")
+    
 
     up_button.click()
     print(">>> Uploaded")
@@ -48,15 +53,21 @@ def downloadFile():
     # driver.implicitly_wait(10)
 
     # convert_button = driver.find_element_by_class_name("button primary")
-    convert_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/form/p[3]/input")
+
+    # convert_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/form/p[3]/input")            # <<< THIS WAS IN OLDER VERSION ON SELINIUM
+    convert_button = driver.find_element(By.XPATH, "/html/body/div/div[4]/div[1]/form/p[3]/input")
+
     print("Converting place caught")
     convert_button.click()
 
     # time.sleep(10)
 
     # driver.implicitly_wait(10)
-    # save_button = driver.find_element_by_class_name("save")
-    save_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/div[3]/table/tbody/tr[2]/td[7]/a")
+    # save_button = driver.find_element_by_class_name("save") 
+
+    # save_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/div[3]/table/tbody/tr[2]/td[7]/a") # <<< THIS WAS IN OLDER VERSION ON SELINIUM
+    save_button = driver.find_element(By.XPATH, "/html/body/div/div[4]/div[1]/div[3]/table/tbody/tr[2]/td[7]/a")
+    
 
     print(">>> Downloading place caught")
     save_button.click()
@@ -126,7 +137,7 @@ if __name__ == "__main__":
                     dowloaded = True
                     done_process.append(t)
                     print(f"\n\n>>> {t} CONVERTION DONE !!!\n\n")
-                    log_f.write(f">>> {t} CONVERTED.\n")
+                    log_f.write(f"\n\t>>> {t} CONVERTED.\n")
                     time.sleep(2)
                 except:
                     print(">>> SOME ERROR IN DOWNLOADING FILE !!!")

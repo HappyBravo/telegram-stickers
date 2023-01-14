@@ -24,26 +24,20 @@ def openBrowser(link):
 
     # waiting for webpage to load
     # driver.implicitly_wait(30)
-
-    
-
     # pass
 
 def uploadFile(mp4file):
     # driver.implicitly_wait(10)
     # upload_file = driver.find_element_by_class_name("up-input")
     upload_file = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div[1]/form/fieldset/p[1]/input")
-
-    
     print(">>> Uploading place caught")
-    
+   
     upload_file.send_keys(mp4file) # uploading file
 
     # up_button = driver.find_element_by_class_name("button primary")
 
-    # up_button = driver.find_element_by_xpath("/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input")     # <<< THIS WAS OLDER VERSION OF SELINIUM
-    up_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input")
-    
+    # up_button = driver.find_element_by_xpath("/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input") # <<< THIS WAS OLDER VERSION OF SELINIUM
+    up_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[4]/div[1]/form/fieldset/p[4]/input") 
 
     up_button.click()
     print(">>> Uploaded")
@@ -54,7 +48,7 @@ def downloadFile():
 
     # convert_button = driver.find_element_by_class_name("button primary")
 
-    # convert_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/form/p[3]/input")            # <<< THIS WAS IN OLDER VERSION ON SELINIUM
+    # convert_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/form/p[3]/input") # <<< THIS WAS IN OLDER VERSION ON SELINIUM
     convert_button = driver.find_element(By.XPATH, "/html/body/div/div[4]/div[1]/form/p[3]/input")
 
     print("Converting place caught")
@@ -67,15 +61,12 @@ def downloadFile():
 
     # save_button = driver.find_element_by_xpath("/html/body/div/div[4]/div[1]/div[3]/table/tbody/tr[2]/td[7]/a") # <<< THIS WAS IN OLDER VERSION ON SELINIUM
     save_button = driver.find_element(By.XPATH, "/html/body/div/div[4]/div[1]/div[3]/table/tbody/tr[2]/td[7]/a")
-    
-
+   
     print(">>> Downloading place caught")
     save_button.click()
     print(">>> Downloaded")
 
-    time.sleep(2)
-
-    
+    time.sleep(2)  
     # pass
 
 if __name__ == "__main__":
@@ -83,12 +74,16 @@ if __name__ == "__main__":
     rename_webp_to_mp4()
 
     directory = getcwd()
+    print(directory)
+    # input()
 
     prefs = {
         "profile.default_content_settings.popups": 0,
-        "download.default_directory": directory+"\\", # IMPORTANT - ENDING SLASH V IMPORTANT,
+        "download.default_directory": directory+"\\processed", # IMPORTANT - ENDING SLASH V IMPORTANT,
         "directory_upgrade": True
         }
+    print(f"SAVING TO : {directory+'\\processed'}")
+    # input()
     options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(executable_path=chrome_sel_path, options=options)
     driver.implicitly_wait(20)
@@ -158,13 +153,13 @@ if __name__ == "__main__":
         log_f.write("\n\nSOME ERROR !!!\n\n")
     
     time.sleep(30) # time alloted to download the last file
-    print(">>> DONE")
+    print("\n\n>>> DONE\n\n")
     # log_f
-    print(sorted(to_process))
-    print(sorted(done_process))
+    print("TO PROCESS ", sorted(to_process))
+    print("DONE PROCESSING" , sorted(done_process))
     
     not_done = set(to_process)-set(done_process)
-    print(not_done)
+    print("NOT PROCESSED", not_done)
 
     log_f.write("- "*10+f"\nTO PROCESS : {sorted(to_process)}\nPROCESSED : {done_process}\nNOT DONE : {not_done}\n"+"- *10")
     log_f.close()
